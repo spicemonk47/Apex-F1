@@ -3,16 +3,50 @@
 @tailwind utilities;
 
 @layer base {
-  :root { color-scheme: dark; }
-  html, body { height: 100%; }
+  :root {
+    color-scheme: dark;
+  }
+  html,
+  body {
+    height: 100%;
+  }
   body {
     background-image: linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px);
     background-size: 100% 3px;
   }
-  *:focus-visible { outline: 2px solid #36c5f0; outline-offset: 1px; }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0b0d10;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #23272f;
+    border: 2px solid #0b0d10;
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2f3540;
+  }
+  *:focus-visible {
+    outline: 2px solid #36c5f0;
+    outline-offset: 1px;
+  }
 }
 
 @layer components {
-  .eyebrow { @apply font-mono text-[10px] uppercase tracking-eyebrow text-ink-faint; }
-  .num { @apply font-mono tabular-nums; }
+  .eyebrow {
+    @apply font-mono text-[10px] uppercase tracking-eyebrow text-ink-faint;
+  }
+  .num {
+    @apply font-mono tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }

@@ -1,0 +1,13 @@
+export interface OpenF1Session { session_key: number; meeting_key: number; session_name: string; session_type: string; date_start: string; date_end: string; year: number; country_name: string; country_code: string; circuit_short_name: string; location: string; gmt_offset: string; meeting_name?: string; }
+export interface OpenF1Driver { driver_number: number; full_name: string; name_acronym: string; team_name: string; team_colour: string; headshot_url: string | null; country_code: string | null; }
+export interface OpenF1Position { date: string; driver_number: number; position: number; }
+export interface OpenF1Interval { date: string; driver_number: number; gap_to_leader: number | string | null; interval: number | string | null; }
+export interface OpenF1Lap { driver_number: number; lap_number: number; lap_duration: number | null; is_pit_out_lap: boolean; st_speed: number | null; }
+export interface OpenF1Stint { driver_number: number; stint_number: number; compound: string | null; tyre_age_at_start: number | null; lap_start: number | null; lap_end: number | null; }
+export interface OpenF1Weather { date: string; air_temperature: number | null; track_temperature: number | null; humidity: number | null; pressure: number | null; rainfall: number | null; wind_speed: number | null; wind_direction: number | null; }
+export interface OpenF1RaceControl { date: string; category: string; flag: string | null; message: string; scope: string | null; driver_number: number | null; lap_number: number | null; }
+export interface TowerRow { driver_number: number; position: number | null; acronym: string; full_name: string; team_name: string; team_colour: string; gap_to_leader: number | string | null; interval: number | string | null; last_lap: number | null; compound: string | null; tyre_age: number | null; headshot_url: string | null; }
+export interface DriverStanding { position: string; points: string; wins: string; Driver: { driverId: string; code?: string; permanentNumber?: string; givenName: string; familyName: string; nationality: string; }; Constructors: { constructorId: string; name: string; nationality: string }[]; }
+export interface ConstructorStanding { position: string; points: string; wins: string; Constructor: { constructorId: string; name: string; nationality: string }; }
+export interface RaceSchedule { round: string; raceName: string; date: string; time?: string; Circuit: { circuitId: string; circuitName: string; Location: { lat: string; long: string; locality: string; country: string }; }; Sprint?: { date: string; time?: string }; }
+export interface Circuit { circuitId: string; circuitName: string; Location: { lat: string; long: string; locality: string; country: string }; }

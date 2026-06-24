@@ -17,42 +17,20 @@ export default function Page() {
   return (
     <div className="flex h-dvh min-h-0 flex-col">
       <StatusBar session={session} flag={flag} feedOk={feedOk} />
-
-      <nav
-        role="tablist"
-        aria-label="Terminal sections"
-        className="flex border-b border-grid bg-panel"
-      >
+      <nav role="tablist" aria-label="Terminal sections" className="flex border-b border-grid bg-panel">
         {(["LIVE", "ARCHIVE"] as Tab[]).map((t) => {
           const active = t === tab;
           return (
-            <button
-              key={t}
-              role="tab"
-              aria-selected={active}
-              onClick={() => setTab(t)}
-              className={`relative px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-eyebrow transition-colors ${
-                active ? "text-ink" : "text-ink-faint hover:text-ink-dim"
-              }`}
-            >
+            <button key={t} role="tab" aria-selected={active} onClick={() => setTab(t)} className={`relative px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-eyebrow transition-colors ${active ? "text-ink" : "text-ink-faint hover:text-ink-dim"}`}>
               {t}
-              {active && (
-                <span className="absolute inset-x-0 bottom-0 h-[2px] bg-f1" aria-hidden />
-              )}
+              {active && <span className="absolute inset-x-0 bottom-0 h-[2px] bg-f1" aria-hidden />}
             </button>
           );
         })}
-        <span className="ml-auto self-center pr-3 font-mono text-[10px] text-ink-faint">
-          openf1 · jolpica
-        </span>
+        <span className="ml-auto self-center pr-3 font-mono text-[10px] text-ink-faint">openf1 · jolpica</span>
       </nav>
-
       <main className="min-h-0 flex-1">
-        {tab === "LIVE" ? (
-          <LiveBoard onSession={setSession} onFlag={setFlag} onFeed={setFeedOk} />
-        ) : (
-          <ArchiveBoard />
-        )}
+        {tab === "LIVE" ? <LiveBoard onSession={setSession} onFlag={setFlag} onFeed={setFeedOk} /> : <ArchiveBoard />}
       </main>
     </div>
   );

@@ -1,0 +1,8 @@
+import type { DriverStanding, ConstructorStanding, RaceSchedule, Circuit } from "./types";
+async function jolpica<T>(path: string): Promise<T> { const res = await fetch(`https://api.jolpi.ca/ergast/f1/${path}.json`, { cache: "no-store" }); if (!res.ok) throw new Error(`Jolpica ${path} -> ${res.status}`); return (await res.json()) as T; }
+interface MRData<K extends string, V> { MRData: Record<K, V> & { total: string }; }
+export async function getDriverStandings(year: number): Promise<DriverStanding[]> { const data = await jolpica<MRData<"StandingsTable", { StandingsLists: { DriverStandings: DriverStanding[] }[] }>>(`${year}/driverstandings`); return data.MRData.StandingsTable.StandingsLists[0]?.DriverStandings ?? []; }
+export async function getConstructorStandings(year: number): Promise<ConstructorStanding[]> { const data = await jolpica<MRData<"StandingsTable", { StandingsLists: { ConstructorStandings: ConstructorStanding[] }[] }>>(`${year}/constructorstandings`); return data.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings ?? []; }
+export async function getSchedule(year: number): Promise<RaceSchedule[]> { const data = await jolpica<MRData<"RaceTable", { Races: RaceSchedule[] }>>(`${year}`); return data.MRData.RaceTable.Races ?? []; }
+export async function getCircuits(year: number): Promise<Circuit[]> { const data = await jolpica<MRData<"CircuitTable", { Circuits: Circuit[] }>>(`${year}/circuits`); return data.MRData.CircuitTable.Circuits ?? []; }
+export const SEASONS: number[] = Array.from({ length: new Date().getUTCFullYear() - 1950 + 1 }, (_, i) => new Date().getUTCFullYear() - i);

@@ -1,0 +1,16 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import type { TowerRow } from "@/lib/types";
+import { gap, shortInterval, lapTime } from "@/lib/format";
+import { tyre } from "@/lib/tyres";
+
+export function TimingTower({ rows }: { rows: TowerRow[]; fastestLap?: number | null }) {
+  const prev = useRef<Map<number, number>>(new Map());
+  useEffect(() => { const next = new Map<number, number>(); for (const r of rows) if (r.position != null) next.set(r.driver_number, r.position); prev.current = next; }, [rows]);
+  const fastest = rows.reduce<number | null>((min, r) => (r.last_lap != null && (min == null || r.last_lap < min) ? r.last_lap : min), null);
+  if (rows.length === 0) return <div className="flex h-full items-center justify-center p-8 text-center"><p className="max-w-xs font-mono text-[12px] leading-relaxed text-ink-dim">No timing rows in the latest session feed. The tower fills the moment a session goes green — check back during a race weekend.</p></div>;
+  return (
+    <div className="h-full overflow-auto"><table className="w-full border-collapse"><thead className="sticky top-0 z-10 bg-panel-2"><tr className="text-left">{["POS", "", "DRIVER", "GAP", "INT", "LAST LAP", "TYRE"].map((h, i) => <th key={i} className={`border-b border-grid px-2 py-1.5 font-mono text-[10px] uppercase tracking-eyebrow text-ink-faint ${i >= 3 ? "text-right" : ""}`}>{h}</th>)}</tr></thead><tbody>{rows.map((r) => { const before = prev.current.get(r.driver_number); const move = before != null && r.position != null ? before - r.position : 0; const t = tyre(r.compound); const isFastest = fastest != null && r.last_lap === fastest; return <tr key={r.driver_number} className="group border-b border-grid/60 hover:bg-panel-2"><td className="relative py-1.5 pl-3 pr-2"><span className="absolute left-0 top-0 h-full w-[3px]" style={{ backgroundColor: r.team_colour }} /><span className="num text-[15px] font-bold text-ink">{r.position ?? "–"}</span></td><td className="w-5 pr-1 text-center">{move > 0 && <span className="text-[11px] text-gain">▲</span>}{move < 0 && <span className="text-[11px] text-f1">▼</span>}</td><td className="py-1.5 pr-2"><div className="flex items-baseline gap-2"><span className="font-display text-[14px] font-bold leading-none text-ink">{r.acronym}</span><span className="num text-[10px] text-ink-faint">{r.driver_number}</span></div><span className="block truncate font-mono text-[10px] text-ink-faint">{r.team_name}</span></td><td className="px-2 text-right"><span className={`num text-[12px] ${r.gap_to_leader === 0 ? "text-amber" : "text-ink-dim"}`}>{gap(r.gap_to_leader)}</span></td><td className="px-2 text-right"><span className="num text-[12px] text-ink-faint">{shortInterval(r.interval)}</span></td><td className="px-2 text-right"><span className={`num text-[12px] ${isFastest ? "font-bold text-fastest" : "text-ink"}`}>{lapTime(r.last_lap)}</span></td><td className="py-1.5 pl-2 pr-3"><div className="flex items-center justify-end gap-1.5"><span className="flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold text-void" style={{ backgroundColor: t.colour }} title={t.name}>{t.label}</span>{r.tyre_age != null && <span className="num w-5 text-right text-[10px] text-ink-faint">{r.tyre_age}</span>}</div></td></tr>; })}</tbody></table></div>
+  );
+}

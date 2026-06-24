@@ -24,10 +24,7 @@ const config: Config = {
         mono: ["var(--font-mono)", "ui-monospace", "monospace"]
       },
       letterSpacing: { eyebrow: "0.18em" },
-      keyframes: {
-        livepulse: { "0%, 100%": { opacity: "1", transform: "scale(1)" }, "50%": { opacity: "0.35", transform: "scale(0.82)" } },
-        flashin: { "0%": { backgroundColor: "rgba(54,197,240,0.16)" }, "100%": { backgroundColor: "transparent" } }
-      },
+      keyframes: { livepulse: { "0%, 100%": { opacity: "1", transform: "scale(1)" }, "50%": { opacity: "0.35", transform: "scale(0.82)" } }, flashin: { "0%": { backgroundColor: "rgba(54,197,240,0.16)" }, "100%": { backgroundColor: "transparent" } } },
       animation: { livepulse: "livepulse 1.4s ease-in-out infinite", flashin: "flashin 0.9s ease-out" }
     }
   },

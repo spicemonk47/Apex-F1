@@ -10,10 +10,4 @@ const nextConfig = {
     ]
   }
 };
-
-const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
-if (process.env.GITHUB_ACTIONS && repoName) {
-  nextConfig.basePath = `/${repoName}`;
-  nextConfig.assetPrefix = `/${repoName}/`;
-}
 export default nextConfig;
